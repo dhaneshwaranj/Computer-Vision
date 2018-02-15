@@ -1,5 +1,4 @@
 Dhaneshwaran Jotheeswaran
-903204867
 
 You just have to run proj1.m file in "code/proj1.m". This code generates the Hybrid image 
 with dog.bmp as the low frequency component and cat.bmp as the high frequency component. 
