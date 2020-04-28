@@ -1,0 +1,527 @@
+<html>
+<head>
+<title>Project 2</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono'
+ rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 42px;
+	margin: 25px 0px 0px 0px;
+	word-spacing: 4px;
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 32px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high
+	font-size: 26px;
+	margin: 15px 0px 0px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+h6 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 30px;
+	margin: 0px 0px 0px 0px;
+	word-spacing: 4px;
+}
+
+h7 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 22px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h8 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 18px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h9 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 22px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 960px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1><span style="color: #DE3737">Dhaneshwaran Jotheeswaran</span></h1>
+<h6><span style="color: #DE3737">903204867</span></h6>
+</div>
+</div>
+<div class="container">
+
+<h2><b>Project 2: Local Feature Matching</b></h2>
+
+
+<p style="text-align:justify"> The goal of this assignment is to create a local feature matching algorithm.
+The pipeline that I used is a simplified version of the famous SIFT pipeline. The matching pipeline is 
+intended to work for instance-level matching; multiple views of the same physical scene. This is really
+useful in many real world applications. One that I can think of from my field 'Robotics' is that, how do 
+we let the Robot understand how two things in different images relate to each other. Are they the same 
+points on an object? Are they the same structure? And so on. This boils down to saying that this point in
+one image corresponds to this point in another. And all this is what this project is about. </p>
+
+<p style="text-align:justify"> The SIFT pipeline has three steps. They are:</p>
+<ol>
+<li>Interest Point Detection</li>
+<li>Local Feature Description</li>
+<li>Feature Matching</li>
+</ol>
+
+<table>
+<tr>
+<td><img src="vis_arrows.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Point Correspondence</td>
+</tr>
+<tr>
+<td><img src="eval.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>93% Accuracy</td>
+</tr>
+</table>
+
+
+<div style="clear:both">
+<h3><b>Interest Point Detection</b></h3>
+
+<p style="text-align:justify"> The first step in Local Feature Matching is to find objects of interest.
+We have to get points in the images that we think can be corresponded to points on another image, which
+we can say with confidence that they are the same. Before figuring out how to let the computer do that,
+what would we as humans do if we are given deformed images of the same object? The most obvious way is to
+identify corners n one image and find out where that corner is in the seconf image. This idea seems pretty 
+trivial, but this is what the Harris Corner Detector does. It finds corners in an image. This algorithm 
+takes care of the first step in the three-step SIFT Pipeline; Finding Interest Points. The explanation
+behind this concept is beautiful, but it boils down to the following few steps.</p>
+<ol>
+<li>Computing the X and Y Direction Gradients.</li>
+<li>Computing the Ix^2, Iy^2 and IxIy Gradient Images.</li>
+<li>Computing the Cornerness Function from the Formula which follows.</li>
+<li>Threshold the Cornerness Function by a small amount, say +delta.</li>
+<li>Do Non-Maxima Suppression.</li>
+</ol>
+
+<p> The Cornerness Function formula is: </p>
+<div style= "text-align: center">
+<img src="formula.png" />
+</div>
+
+<div style="clear:both">
+<h7><b>get_interest_points Implementation</b></h7>
+
+<pre><code>%%Assigning Parameters
+F_size = 3;                                     			%Filter Size                       
+F_cutoff = 1;                                   			%Cut-off Frequency
+alpha = 0.06;
+
+%Filters
+y_sobel = fspecial('sobel');                    			%Y-Direction Filter
+x_sobel = y_sobel';                             			%XDirection Filter
+Ix = imfilter(image, x_sobel);                  			%X-Direction Gradient
+Iy = imfilter(image, y_sobel);                  			%Y-Direction Gradient
+
+%%Correctness Function Calculation
+Ix2 = Ix.*Ix;                                   			%Correctness Function
+Iy2 = Iy.*Iy;                                   			%Images
+IxIy = Ix.*Iy;
+Gauss = fspecial('gaussian', F_size, F_cutoff);     			%Big Gaussian
+GIx2 = imfilter(Ix2, Gauss);
+GIy2 = imfilter(Iy2, Gauss);
+GIxIy2 = imfilter(IxIy, Gauss).^2;
+har = GIx2.*GIy2- GIxIy2 - alpha.*(GIx2+GIy2).^2;  			%Correctness Function
+har = har > 0.1;                                   			%Threshold
+
+%%Non-Maxima Supppression
+cc = bwconncomp(har);                           			%Connected Components
+x = [];
+y = [];
+for i = 1:cc.NumObjects                         			%Non-Maxima Suppression
+    patch = cc.PixelIdxList{i};                 			%Indices of Conn. Comp.
+    max_val = max(har(patch));                  
+    for j = 1:size(patch,1)                     			%For each Conn. Component
+        if har(j) == max_val;
+            max_index = patch(j);               			%Find Local Maximum
+        end
+    end
+    [row, col] = size(har);                     
+    [a, b] = ind2sub([row col], max_index);
+    y = [y; a];         
+    x = [x; b];
+end
+</code>
+</pre>
+
+<h9><b>Parameter Tuning</b></h9>
+<p style="text-align:justify">There are a lot of parameters that can be tuned to get the maximum 
+accuracy possible. Here are few of the parameters that I changed in this function to get the 93%
+accuracy in the Notre Dame Image Pair.</p>
+
+<h8><b>Scale Factor</b></h8>
+<p style="text-align:justify">I worked with the original image to get as many points as possible.</p>
+
+<h8><b>Size and Cut-Off Frequency of Gaussian</b></h8>
+<p style="text-align:justify">The size was 3 and the Cut-Off Frequency was 1. The gaussian removes the 
+high frequency noise and so helps in not detecting noise as a corner.</p>
+
+<h8><b>har Threshold</b></h8>
+<p style="text-align:justify">This parameter changes how many points we detect. Increasing this decreses
+the number of Connected Components and ultimately the number of Interest Points. Because each image pair
+was different I had to tune the parameters for all 3. The best was "0.1" for Notre Dame, "0.01" for 
+Rushmore and "0.04" for Episcopal Gaudi.</p>
+
+<h8><b>alpha</b></h8>
+<p style="text-align:justify">alpha was chosen as "0.06" for all image pairs.</p>
+
+<h8><b>Boundary Cut-Off</b></h8>
+<p style="text-align:justify">I changed how close to the boundary we look for the interest points for 
+each image pair. For Notre Dame I took Interest points which were atleast Feature_width away from
+the boundary. For Rushmore it was atleast 4*Feature_width, and for Episcodal Gaudi it was 7*Feature_width.</p>
+
+<p style="text-align:justify">Here are some image results. </p>
+
+<table>
+<tr>
+<td><img src="horizontal.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Horizontal Edges</td>
+</tr>
+<tr>
+<td><img src="vertical.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Vertical Edges</td>
+</tr>
+<tr>
+<td><img src="horizontal2.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Horizontal Edges Squared</td>
+</tr>
+<tr>
+<td><img src="vertical2.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Vertical Edges Squared</td>
+</tr>
+<tr>
+<td><img src="IxIy.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Edges All Sides</td>
+</tr>
+<tr>
+<td><img src="har.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Har Image</td>
+</tr>
+<tr>
+<td><img src="threshold.png" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Thresholded Har Image</td>
+</tr>
+</table>
+
+
+<div style="clear:both">
+<h3><b>Local Feature Description</b></h3>
+<p style="text-align:justify">The next step in the SIFT pipeline is the Local Feature Descriptor. For 
+each of the interest point we identified, we have to create a Feature Vector. This is done by the 
+following steps:</p>
+
+<ol>
+<li>Select a Feature Window Size.</li>
+<li>Place the window at each Interest Point.</li>
+<li>Split the window into sections and vote for Gradient Direction bins in each section.</li>
+<li>Normalize the Vector containing the bins.</li>
+</ol>
+
+<h7><b>get_features Implementation</b></h7>
+
+<pre><code>%%Assignment of Variables
+features = zeros(size(x,1), 288);                                               %Feaure Vector.
+
+[Gmag, Gdir] = imgradient(image);                                               %Image Gradient.
+[row, col] = size(image);
+
+for i = 1:size(x,1)                                                             %For each Interest Point.
+    f_x = x(i);
+    f_y = y(i);
+    feature = [];
+    for j = (f_y-feature_width/2)+1:feature_width/4:(f_y+feature_width/2)       %For each Horizontal Section. 
+        for k = (f_x-feature_width/2)+1:feature_width/4:(f_x+feature_width/2)   %For each Vertical Section.
+            bin = zeros(1,18);                                                   %Bins.
+            for l = 0:(feature_width/4)-1                                       %For every pixel in 
+                for m = 0:(feature_width/4)-1                                   %the Section.
+                    mag = Gmag(j+l,k+m);                                        %Gradient Magnitude
+                    dir = Gdir(j+l,k+m)+180;                                    %Gradient Direction (0-360)
+                    if dir > 359.9999
+                        dir = 0;
+                    end
+                    n = floor(dir/20)+1;                                        %Bin number.
+                    bin(n) = bin(n) + mag;                                      %Voting with its Magnitude.
+                end
+            end
+            feature = [feature bin];                                            %Feature Vector
+        end
+    end
+    features(i,:) = (feature./norm(feature)).^0.5;                              %All feature Vectors
+end
+</code></pre>
+
+<h9><b>Parameter Tuning</b></h9>
+<p style="text-align:justify">There are a lot of parameters that can be tuned to get the maximum 
+accuracy possible. Here are few of the parameters that I changed in this function to get the 93%
+accuracy in the Notre Dame Image Pair.</p>
+
+<h8><b>Feature Width</b></h8>
+<p style="text-align:justify">The size was 16 by default. This worked pretty well for the Notre Dame 
+image. For Rushmore I changed it to 24 to get the 30% accuracy, and 16 to get 5% accuracy :(.</p>
+
+<h8><b>Number of Bins</b></h8>
+<p style="text-align:justify">This parameter changes how many bins we choose to have in each section of 
+the window. This determines how finely we vote for the gradient directions. I chose 12 bins for all the 
+Image pairs.</p>
+
+<h8><b>Power</b></h8>
+<p style="text-align:justify">The normalized Feature Vectors were raised to some power lesser than 1
+to get better results. It was "0.4" for Notre Dame and Rushmore and for Episcodal Gaudi. </p>
+
+
+<div style="clear:both">
+<h3><b>Feature Matching</b></h3>
+<p style="text-align:justify">The next step in the SIFT pipeline is the Feature Matching. For 
+each of the interest point we identified in one image we have to find the best fit in the secnd image.
+The steps are as follows:</p>
+
+<ol>
+<li>Compute the distance between each Feature Vector in one image with the Feature Vectors in the Second Image.</li>
+<li>Sort the matches according to distances.</li>
+<li>Compute the Confidence for each match by computing Distance2/Distance1.</li>
+<li>Choose the 100 best matches and return it.</li>
+</ol>
+
+<h7><b>get_features Implementation</b></h7>
+
+<pre><code>%%Assigning parameters
+matches = zeros(size(features1, 1), 2);                                     %Matches
+confidences = zeros(size(features1, 1));                                    %Confidence
+for i = 1:size(features1, 1)                                                %For each Feature in Image 1
+    dist = zeros(size(features2, 1));                                       %Distances Vector
+    for j = 1:size(features2, 1)                                            %For each Feature in Image 2
+        dist(j) = norm(features1(i,:)-features2(j,:));                      %Compute Distances
+    end
+    [dist index] = sort(dist);                                              %Sort Distances in ascending Order
+    confidences(i) = dist(2)/dist(1);                                       %Compute Comfidence
+    matches(i,:) = [i, index(1)];                                           %Fix Matches based on Distance
+end
+
+% Sort the matches so that the most confident onces are at the top of the
+% list. You should probably not delete this, so that the evaluation
+% functions can be run on the top matches easily.
+[confidences, ind] = sort(confidences, 'descend');
+confidences = confidences(1:100);
+matches = matches(ind(1:100),:);
+</code></pre>
+
+<h9><b>Parameter Tuning</b></h9>
+<p style="text-align:justify">There are a lot of parameters that can be tuned to get the maximum 
+accuracy possible. But this function doesn't have any parameter that needs changing.</p>
+
+<div style="clear:both">
+<h3><b>Extra Credits</b></h3>
+<p style="text-align:justify">I did change Parameters of the Feature Descrition function and found the 
+best set of parameters. (3 Marks)</p>
+
+
+<div style="clear:both">
+<h3><b>Results</b></h3>
+<p style="text-align:justify">Here are the Three Image Pairs.</p>
+
+<table>
+<tr>
+<td><img src="vis_dots.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Notre Dame - Interest Points Generated</td>
+</tr>
+<tr>
+<td><img src="vis_arrows.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Notre Dame - Correspondence</td>
+</tr>
+<tr>
+<td><img src="eval.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Green:93 Good. Red:7 Bad</td>
+</tr>
+<tr>
+<td><img src="vis_dots_rush.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Rushmore - Interest Points Generated</td>
+</tr>
+<tr>
+<td><img src="vis_arrows_rush.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Rushmore - Correspondence</td>
+</tr>
+<tr>
+<td><img src="eval_rush.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Green:30 Good. Red:70 Bad</td>
+</tr>
+<tr>
+<td><img src="vis_dots_epis.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Episcodal Gaudi - Interest Points Generated</td>
+</tr>
+<tr>
+<td><img src="vis_arrows_epis.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Episcodal Gaudi - Correspondence</td>
+</tr>
+<tr>
+<td><img src="eval_epis.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td><center>Green:5 Good. Red:95 Bad</td>
+</tr>
+</table>
+
+<p style="text-align:justify">The last image accuracy is so bad because they are scaled and from a drastically
+different viewpoint</p>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+<html>
+<head>
+<title>Project 3</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono'
+ rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 42px;
+	margin: 25px 0px 0px 0px;
+	word-spacing: 4px;
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 32px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high
+	font-size: 26px;
+	margin: 15px 0px 0px 0px;
+	color: #000;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+h6 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 30px;
+	margin: 0px 0px 0px 0px;
+	word-spacing: 4px;
+}
+
+h7 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 22px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h8 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 18px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h9 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 22px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 960px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1><span style="color: #DE3737">Dhaneshwaran Jotheeswaran</span></h1>
+<h6><span style="color: #DE3737">903204867</span></h6>
+</div>
+</div>
+<div class="container">
+
+<h2><center><b>Project 3: Camera Calibration and Fundamental Matrix Estimation 
+with RANSAC</b></center></h2>
+
+
+<p style="text-align:justify"> The goal of this project is to get introduced to camera 
+and scene geometry, specifically, we estimate the camera projection matrix, which maps 
+3D world coordinates to 2D image coordinates. Also, we estimate the Fundamental Matrix, 
+which relates points in one scene to epipolar lines in another. The camera Projection 
+Matrix and the Fundamental Matrix can each be estimated using point correspondences. 
+To estimate the camera Projection Matrix (camera calibration), the input is 3D world 
+co-ordinates and corresponding 2D points on the image. To estimate the Fundamental Matrix, 
+the input is corresponding 2D points across two images. The third part of this project is 
+estimating the Fundamental matrix from point correspondences of any two image pair using 
+the SIFT implementation from VLfeat. </p>
+
+<p style="text-align:justify"> Like explained above, this project has three parts to it. 
+They are:</p>
+<ol>
+<li>Estimation of Camera Projection Matrix</li>
+<li>Estimation of Fundamental Matrix</li>
+<li>Estimation of Fundamental Matrix with RANSAC</li>
+</ol>
+
+<table>
+<tr>
+<td><img src="intro_camera_center.png" width="100%"/></td></tr>
+<tr>
+<td><center>Camera Center</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td><img src="intro_epipolar_1.png" width="100%"/></td>
+<td><img src="intro_epipolar_2.png" width="100%"/></td></tr>
+<tr>
+<td><center>Epipolar Lines in Image 1</td>
+<td><center>Epipolar Lines in Image 2</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td><img src="intro_RANSAC.png" width="100%"/></td></tr>
+<tr>
+<td><center>Sparse Point Correspondences after estimating Fundamental Matrix using RANSAC</td>
+</tr>
+</table>
+
+
+<div style="clear:both">
+<h3><b>PART 1: Estimation of Camera Projection Matrix</b></h3>
+
+<p style="text-align:justify"> The goal of this part is to compute the Projection Matrix 
+that goes from 3D world co-ordinates to 2D image co-ordinates. In this part, we find the 
+camera Projection Matrix and return the position of the camera center in 3D world 
+co-ordinates.</p>
+
+<p style="text-align:justify"> The equation which trasforms 3D co-ordinates to 2D 
+co-ordinates is:</p>
+<div style= "text-align: center">
+<img src="part1_eq1.png" />
+</div>
+
+<p style="text-align:justify"> After some rearrangement, we find the Least Squares set-up 
+for this problem. We fix m_44 to 1, because the matrix has only 11 degrees of freedom, and 
+solve the following Regression problem as follows.</p>
+<div style= "text-align: center">
+<img src="part1_eq2.png" />
+</div>
+
+<p style="text-align:justify"> We get the following Projection matrix.</p>
+<div style= "text-align: center">
+<img src="part1_eq3.png" />
+</div>
+
+<p style="text-align:justify"> The Projection Matrix can be teased into two parts. A 3x3 
+matrix, called Q, and one column vector, that is the 4th column of the Projection matrix, which we 
+denote as m4. And then we can get the Camera Center as follows:</p>
+<div style= "text-align: center">
+<img src="part1_eq4.png" />
+<img src="part1_eq5.png" />
+</div>
+
+p style="text-align:justify"> There was nothing too difficult in this section, and it was 
+just coding up the regression equation and solving it. The fllowing is the plot of the 
+position of the camera in the world.</p>
+
+<table>
+<tr>
+<td><img src="part1_camera_center.png" width="100%"/></td></tr>
+<tr>
+<td><center>Camera Center</td>
+</tr>
+</table>
+
+<div style="clear:both">
+<h3><b>PART 2: Estimation of Fundamental Matrix</b></h3>
+<p style="text-align:justify"> The next part of this project is estimating the mapping of 
+points in one image to lines in another by means of the Fundamental Matrix. This is done 
+by making use of corresponding points in two images. The definition of Fundamental Matrix 
+is as follows:</p>
+
+<div style= "text-align: center">
+<img src="part2_eq1.png" />
+</div>
+
+<p style="text-align:justify"> After some manipulations and rearrangement, we get the 
+following least squares problem to solve.</p>
+<div style= "text-align: center">
+<img src="part2_eq2.png" />
+</div>
+
+<p style="text-align:justify"> We use the following commands in Matlab to solve this least 
+squares problem.</p>
+<div style= "text-align: center">
+<img src="part2_eq3.png" />
+</div>
+
+<p style="text-align:justify"> But, this gives us a full rank (Rank 3) matrix. We need a 
+rank 2 matrix. A Fundamental Matrix is always rank deficient. To code that, we force the 
+least singular vaue in the matrix to zero and recompute the Fundamental Matrix as follows.</p>
+<div style= "text-align: center">
+<img src="part2_eq4.png" />
+</div>
+
+<p style="text-align:justify"> So, we get a Fundamental Matrix estimation from this. How do 
+check if it is right? For that we plot the Epipolar Lines on the two images and see if the 
+lines pass through the Reference points given to us.</p>
+
+<table>
+<tr>
+<td><img src="part2_epipolar_1.png" width="100%"/></td>
+<td><img src="part2_epipolar_2.png" width="100%"/></td></tr>
+<tr>
+<td><center>Epipolar Lines in Image 1</td>
+<td><center>Epipolar Lines in Image 2</td>
+</tr>
+</table>
+
+<p style="text-align:justify"> Using just this doesn't give us a great approximation of the 
+Fundamental Matrix. As we can see, the Epipolar Lines don't exactly go through all the 
+Reference points. We have a fix for this, and that is Extra Credits, which I talk about 
+below.</p>
+
+<h9><b>Extra Credits: Normalized Co-ordinates</b></h9>
+<p style="text-align:justify"> The reason why the estimate of the Fundamental Matrix is 
+off is because the value of the co-ordinates are hugely apart, and that makes the 
+approximation not so good. To fix that, we Ccan normalize the co-ordinates in a certain way.
+I followed the below procedure:</p>
+
+<ol>
+<li>Compute the mean of each co-ordinate for both image points</li>
+<li>Compute the Standard Deviation of the points for both image</li>
+<li>Use the inverse of the Standard Deviation as 's' in the following equation</li>
+<li>Use the means of the co-ornidates as 'c_u' and 'c_v' in the following equation</li>
+<li>The product of the two matrices below gives the T matrix</li>
+<li>Compute that for both images</li>
+</ol>
+
+<div style= "text-align: center">
+<img src="part2_eq5.png" />
+</div>
+
+<p style="text-align:justify"> And the, compute the Fundamental matrix as above and then 
+add this at the end.</p>
+
+<div style= "text-align: center">
+<img src="part2_eq6.png" />
+</div>
+
+<p style="text-align:justify"> This gives us a better estimate of the Fundamental Matrix 
+and it goes through almost all the Reference points in the center.</p>
+
+<table>
+<tr>
+<td><img src="part2_epipolar_1norm.png" width="100%"/></td>
+<td><img src="part2_epipolar_2norm.png" width="100%"/></td></tr>
+<tr>
+<td><center>Epipolar Lines in Image 1</td>
+<td><center>Epipolar Lines in Image 2</td>
+</tr>
+</table>
+
+
+
+<div style="clear:both">
+<h3><b>PART 3: Estimation of Fundamental Matrix with RANSAC</b></h3>
+<p style="text-align:justify"> The last part of this assignment is to do Part 2 again, 
+but for arbitrary image pairs. We use the VLfeat package to do Interest point matching, 
+and then use that in our algorithm. The following or the steps in RANSAC.</p>
+
+<ol>
+<li>Randomly sample 8 or few more than 8 matched points</li>
+<li>Compute the Fundamental Matrix using those points</li>
+<li>Use the estimate of the Fundamental Matrix and check how many points satisfy this 
+estimate within a threshold</li>
+<li>Repeat Steps 1 through 3 until you a stop condition</li>
+</ol>
+
+<p style="text-align:justify"> The stop condition that I used was, when a certain percentage 
+of the interest points become inliers for a particular estimate of the Fundamental Matrix, 
+I stop the search. The value of the Threshold and the Percentage for each image was changed 
+to get the best possible results. They are given below.</p>
+
+
+<h9><b>Parameter Tuning</b></h9>
+<p style="text-align:justify">For Mount Rushmore, the threshold was 0.001 and the percentage 
+was 50%. This gave a really good match in 1515 iterations in o.</p>
+
+<p style="text-align:justify">For Notre Dame, the threshold was 0.001 and the percentage 
+was 30%. This gave a really good match in 28059 iterations.</p>
+
+<p style="text-align:justify">For Episcopal Gaudi, the threshold was 0.01 and the percentage 
+was 44%. This gave a really good match in 10529 iterations.</p>
+
+
+<div style="clear:both">
+<h3><b>Results</b></h3>
+<p style="text-align:justify">Here are the Three Image Pairs with somewhat Dense Correspondences.</p>
+
+<table>
+<tr>
+<td><img src="results_image1.png" width="100%"/></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td><img src="results_image2.png" width="100%"/></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td><img src="results_image3.png" width="100%"/></td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<html>
+<head>
+<title>Project 6</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono'
+ rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 42px;
+	margin: 25px 0px 0px 0px;
+	word-spacing: 4px;
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 32px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high
+	font-size: 26px;
+	margin: 15px 0px 0px 0px;
+	color: #000;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+h6 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 30px;
+	margin: 0px 0px 0px 0px;
+	word-spacing: 4px;
+}
+
+h7 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 22px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h8 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 18px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h9 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: high;
+	font-size: 22px;
+	margin: 15px 0px 0px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 960px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1><span style="color: #DE3737">Dhaneshwaran Jotheeswaran</span></h1>
+<h6><span style="color: #DE3737">903204867</span></h6>
+</div>
+</div>
+<div class="container">
+
+<h2><center><b>Project 6: Deep Learning</b></center></h2>
+
+
+<p style="text-align:justify"> The goal of this project is to introduce us to Deep Learning 
+tools for Computer Vision. We designed and trained Deep Convolutional Networks for the 15 
+Scene Recognition Task, using the MatConvNet toolbox. </p>
+
+<p style="text-align:justify"> In Project 4: Scene Recognition using Bag of Words, I had to 
+hand-craft features and got impressive results with accuracy as high as 79.5%. But, getting 
+there was hard. But, the hope is that with Deep Learning we can train the model end-to-end 
+and get much higher accuracy withouut going through the trouble of designing hand-crafted 
+features. This project has two parts to it. </p>
+<ol>
+<li> Train a Deep Network from Scratch </li>
+<li> Fine-tune a pre-trained Deep Network </li>
+</ol>
+
+<div style="clear:both">
+<h3><b> PART 1: Train a Deep Network from Scratch </b></h3>
+<p style="text-align:justify"> As the name suggests, we had to train a Deep Convolutional 
+Neural Network from scratch. But, we can't hope to beat the accuracy of the hand-crafted 
+feature Classifier with so little training data. The maximum we could hope for is lesser 
+than the hand-crafted model. </p>
+
+<p style="text-align:justify"> So, we were given a shallow network to begin with. The size 
+of the input image to this network was fixed at 64x64. It was followed by a convolutional 
+layer wih 10 9x9 filters with stride 1, followed by a Max-Pooling layer with filter sizes 
+7x7 and a stride of 7. This was then followed by a fully-connected layer with 15 outputs. 
+Then, at the end of the network we had the usual softmax layer. Given this network, we had 
+to train it to get above 50% accuracy on the 15 scene categories dataset.</p>
+
+<h9><b> Training the Network </b></h9>
+<p style="text-align:justify"> Okay, now given the above shallow network, we have to train 
+the network to classify scenes. We initialize the network with random weights, and get the 
+input data in batches of 50 images chosen randomly. This is what the given skeleton code 
+does. And we don't go anywhere with this. The accuracy is abysmal. So, what seems to be the 
+problem and what are the fixes? The following paragraphs talk about that. </p>
+
+<p style="text-align:justify"> First, we don't have enough data. We can't do much about that. 
+Ofcourse, we can't get new data. But, we can 'jitter' with our data and synthetically create 
+new data. I created synthetic data by flipping half of the images in each of the 30 randomly 
+chosen batches. And on top of that, I chose 10 images in this pool and rotated them 2 degrees 
+to the right and selected another 10 to rotate 2 degrees to the left. I could have done 
+some more jittering too. But, I felt this was enough. This created enough data to breach the 
+50% accuracy benchmark after all the problems was fixed. </p>
+
+<p style="text-align:justify"> That's one problem taken care off. But, we haven't reached 
+50% yet. One simple trick that improves accuracy in the initial few iterations is to have 
+all the images zero-centered. Why do we do that? Simply because this just eliminates the 
+possibility of the network learning the mean of the training data. I just computed the mean 
+image from all 3000 images and subtracted it from all images before using that. One other 
+thing that I did which also increased accuracy to similar levels is that, I found the mean 
+pixel value from each image and subtracted that from each pixel before using that to train 
+the network. This also worked, but I went with the former method, which was what the write-up 
+talks about. </p>
+
+<p style="text-align:justify"> Okay, that increased my accuracy, but not above 50%. What 
+else can be done to make it go above 50% ? One problem is that our network isn't regularized. 
+To overcome this, we do dropout regularization, where we randomly choose some percentage of 
+the network connections in a layer and cut them off.  This prevents a unit in one layer from 
+relying too strongly on a single unit in the previous layer. Dropout regularization can be 
+interpreted as simultaneously training many "thinned" versions of your network. At test test, 
+all connections are restored which is analogous to taking an average prediction over all of 
+the "thinned" networks. I chose the drop-out rate as 40%, and inserted it right before the 
+last convolutional layer / fully-connected layer. This increased the accuracy above 50%. </p>
+
+<p style="text-align:justify"> But, we are not done yet. There is still room for development. 
+Our network is too shallow, we can add more layers. This will increase training time, and 
+also it will take many more epochs to reach the same level of accuracy. That's why I checked 
+the accuracy and reverted back to the shallow network. </p>
+
+<p style="text-align:justify"> The last thing we could do is to normalize the input to each 
+layer. Again, this will increase the accuracy to a small amount.</p>
+
+<p style="text-align:justify"> The learning rate I chose was 0.0001. Though lower learning 
+rates got better accuracy, it took much more time to train. So, I kept it at 0.0001. I 
+maintained the Batch Size at  50. To understand where the error was going, I ran for 500 
+epochs. The maximum accuracy I got with my code was around 60.5%. </p>
+
+<center> Filters learnt in the First Layer </center>
+<img src="part1_filters.png" width="100%"/>
+
+<center> Training and Validation Error </center>
+<img src="part1_plot.png" width="100%"/>
+
+<center> Last Epoch Training Errors </center>
+<img src="part1_train_accuracy.png" width="100%"/>
+
+<center> Last Epoch Validation Errors </center>
+<img src="part1_val_accuracy.png" width="100%"/>
+
+<div style="clear:both">
+<h3><b>PART 2: Fine-tune a pre-trained Deep Network</b></h3>
+
+<p style="text-align:justify"> Okay, that was indeed great. We didn't have to hand-design 
+features, but still got 60% accuracy. But, it didn't beat the 79.5% accuracy I got when I 
+used hand-designed features. Reason: We don't have a deeeper network, and we don't have 
+enough data. To have a deep network itself, we need a lot of data. But, it is difficult to 
+get that. To solve this problem, the community has figured out a trick. One of the impressive 
+things about the representations learned by deep convolutional networks is that they 
+generalize surprisingly well to other recognition tasks. This is unexpected because these 
+networks are discriminatively trained to perform well at a particular task so one might 
+expect their representations to "overfit" for that task. And perhaps they do, but they 
+still often exceed the performance of hand-crafted features when used in a new domain. </p>
+
+<p style="text-align:justify"> One Strategy is to fine-tune an existing network. In this 
+scenario you take an existing network, replace the final layer (or more) with random weights, 
+and train the entire network again with images and ground truth labels for your recognition 
+task. You are effectively treating the pre-trained deep network as a better initialization 
+than the random weights used when training from scratch. When you don't have enough training 
+data to train a complex network from scratch (e.g. with the 15 scene database) this is an 
+attractive option. Fine-tuning can work far better than taking the activations directly from 
+a pre-trained CNN. </p>
+
+<h9><b> Training the Network </b></h9>
+
+<p style="text-align:justify"> For this Part of the project we will fine-tune the VGG-F 
+network to perform scene recognition. The code for Part 2 largely followed the same outline 
+or even used the same code as Part 1. I just did a handful of things differently, though. </p>
+
+<p style="text-align:justify"> I made the following edits to the network. The final two 
+layers, fc8 and the softmax layer, was removed and specified again using the same syntax 
+seen in Part 1. The original fc8 had an input data depth of 4096 and an output data depth 
+of 1000 (for 1000 ImageNet categories). We need the output depth to be 15, instead. The 
+weights was randomly initialized just like in Part 1. The dropout layers used to train VGG-F 
+are missing from the pretrained model (probably because they're not used at test time). I 
+added both of them back in between fc6 and fc7 and between fc7 and fc8. </p>
+
+<p style="text-align:justify"> The other parts of this part is very similar to the part 1 
+code. The input images need to be resized to 224x224. More specifically, the input images 
+need to be 224x224 when returned by getBatch(). I reused my jittering strategy from Part 1. 
+VGG-F accepts 3 channel (RGB) images. The 15 scene database contains grayscale images. I 
+concatenated the grayscale images with themselves (e.g. cat(3, im, im, im)) to make an RGB 
+image. VGG-F expects input images to be normalized by subtracting the average image, just 
+like in Part 1. VGG-F provides a 224x224x3 average image in net.meta.normalization.averageImage. </p>
+
+<p style="text-align:justify"> I got just over 90% accuracy with this strategy, while 
+maintaining the learning rate at 0.0001, and batch size at the default value, and the same 
+jittering strategy used in Part 1. I got more than 91% accuracy, but forgot to save the 
+results then. </p>
+
+<center> Filters learnt in the First Layer </center>
+<img src="part2_filters.png" width="100%"/>
+
+<center> Training and Validation Error </center>
+<img src="part2_plot.png" width="100%"/>
+
+<center> Last Epoch Training Errors </center>
+<img src="part2_train_accuracy.png" width="100%"/>
+
+<center> Last Epoch Validation Errors </center>
+<img src="part2_val_accuracy.png" width="100%"/>
+
+</body>
+</html>
